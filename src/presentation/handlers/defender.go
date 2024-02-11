@@ -10,12 +10,12 @@ type DefenderHandler struct {
 	service *domain.PhishDefenderService
 }
 
-func NewBalanceHandler(service *domain.PhishDefenderService) *DefenderHandler {
+func NewDefenderHandler(service *domain.PhishDefenderService) *DefenderHandler {
 	return &DefenderHandler{
 		service: service,
 	}
 }
 
-func (d *DefenderHandler) GetBalanceHistory(c echo.Context) error {
+func (d *DefenderHandler) Store(c echo.Context) error {
 	return c.JSON(http.StatusServiceUnavailable, "not implemented")
 }

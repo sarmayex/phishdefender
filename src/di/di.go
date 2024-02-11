@@ -74,7 +74,7 @@ func DefenderService() *domain.PhishDefenderService {
 }
 func DefenderHandler() *handlers.DefenderHandler {
 	if defenderHandler == nil {
-		defenderHandler = handlers.NewBalanceHandler(DefenderService())
+		defenderHandler = handlers.NewDefenderHandler(DefenderService())
 	}
 	return defenderHandler
 }
