@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+
+  phishdefender:
+    container_name: phishdefender
+    hostname: phishdefender
+    restart: always
+    logging:
+      options:
+        max-size: 2048m
+        max-file: "2"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./env:/.env
+      - gopath:/go
+    networks:
+      - defender
+
+
+  postgres:
+    container_name: postgres
+    hostname: postgres
+    image: postgres:13.2-alpine
+    command: postgres -c 'max_connections=250'
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+      - ./init-postgres:/docker-entrypoint-initdb.d
+    networks:
+      - defender
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d postgres" ]
+      interval: 3s
+      timeout: 5s
+      retries: 3
+
+
+
+networks:
+  defender:
+
+
+volumes:
+  gopath:
+  postgres:
+
